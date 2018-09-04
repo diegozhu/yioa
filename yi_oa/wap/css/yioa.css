@@ -1,0 +1,387 @@
+body, html {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.demos-title {
+    text-align: center;
+    font-size: 34px;
+    /*color: #3cc51f;*/
+    color: whitesmoke;
+    font-weight: 400;
+    margin: 0 15%;
+}
+
+.demos-sub-title {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+
+.demos-header {
+    /*padding: 10px 0;*/
+    /*background-color: #384144;*/
+    display: none;
+}
+
+.demos-content-padded {
+    padding: 15px;
+}
+
+.demos-second-title {
+    text-align: center;
+    font-size: 24px;
+    color: #3cc51f;
+    font-weight: 400;
+    margin: 0 15%;
+}
+
+footer {
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+}
+
+footer a {
+    color: #999;
+    text-decoration: none;
+}
+
+.yioa-text-right {
+    float: right;
+    margin: 5px;
+    padding: 0 10px;
+    height: 2.3em;
+    line-height: 2.3em;
+    text-align: right;
+    color: #cfcfcf;
+}
+
+.yioa-text-left {
+    margin: 5px;
+    padding: 0 10px;
+    height: 2.3em;
+    line-height: 2.3em;
+    text-align: left;
+    color: #cfcfcf;
+}
+
+.yioa-subject {
+    padding: 10px;
+    font-size: 1.4em;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.yios_task{
+    padding: 10px 15px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.yioa-order-content {
+    text-align: left;
+}
+
+.yioa-todo-date {
+    float: right;
+}
+
+.yioa-status-tag {
+    display: inline-block;
+    padding: 0 20px 0 0;
+}
+
+/**
+css 覆盖
+ */
+div.tagsinput span.tag {
+    padding: 0 5px;
+}
+
+div.tagsinput {
+    border: none;
+}
+
+.btn-height {
+    line-height: 45px;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    color: dodgerblue;
+}
+
+.car-selected {
+    background-color: #9ED99D;
+}
+
+.detail-label label.weui-form-preview__label {
+    font-size: 17px;
+    color: #0d0d0d;
+}
+
+.label-text {
+    font-size: 17px;
+    color: #0d0d0d;
+}
+
+.div-title {
+    /*height: 54px;*/
+    /*padding: 10px 0;*/
+    /*background-color: #384144;*/
+    /*color: whitesmoke;*/
+    /*font-size:34px ;*/
+}
+
+.action-icon {
+    /*padding:13px 10px 0 0;*/
+    /*padding: 20px 10px 0px 18px;*/
+    padding: 5px 5px 0px 18px;
+    display: block;
+}
+
+.action-icon-todo {
+    padding: 20px 10px 0px 18px;
+    display: block;
+    text-align: center;
+}
+
+.popup-title, a.popup-title {
+    background-color: #384144;
+    color: whitesmoke;
+}
+
+.label {
+    display: inline;
+    padding: .1em .6em .1em;
+    font-size: 75%;
+    /*font-weight: 700;*/
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.organiser-a .bootstrap-tagsinput .tag [data-role="remove"]{
+    display: hidden !important;
+}
+.coOrganiser-a .bootstrap-tagsinput .tag [data-role="remove"]{
+    display: hidden !important;
+}
+
+.label-info {
+    /*background-color: #5bc0de;*/
+    /* background-color: #1aad19; */
+    color: #5f646e !important;
+}
+
+.bootstrap-tagsinput {
+    border: none;
+    box-shadow: none;
+}
+
+.yioa-white-back {
+    background-color: white;
+}
+
+.index_lable {
+    color: black;
+}
+
+.time-line .time-line-line {
+    left: 21px;
+    top: 32px;
+    bottom: 32px;
+    background: #cacaca;
+}
+
+.time-line .time-line-circle {
+    border: 2px  #1b86d4 solid;
+    background: url("../images/dot01.png");
+}
+
+.time-line .time-line-circle-doing {
+    background: #cacaca;
+}
+
+.num-tip {
+    color: orangered;
+}
+
+.order-lable {
+    width: 25%;
+}
+
+.sys-home {
+    padding: 5px 10px 0 0;
+    display: block;
+}
+
+.yioa-staff-desc {
+     color: #999;
+     font-size: 13px;
+     line-height: 1.2;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     -webkit-box-orient: vertical;
+     -webkit-line-clamp: 2;
+ }
+
+.yioa-valid {
+    border: 1px solid orangered;
+}
+.yioa-div-textarea{
+    /*width: 400px;*/
+    min-height: 100px;
+    max-height: 200px;
+    _height: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    outline: 0;
+    /*border: 1px solid #a0b3d6;*/
+    font-size: 12px;
+    line-height: 24px;
+    padding: 2px;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    /*border-color: rgba(82, 168, 236, 0.8);*/
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.yioa-pre {
+    display: block;
+    min-height: 100px;
+    margin: 0;
+    visibility: hidden;
+}
+.yioa-textarea {
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    overflow: hidden;
+}
+
+.time-line .time-line-circle-empty{
+    position: absolute;
+    top: 17px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border:2px #1b86d4 solid;
+    /* background: #1aad19; */
+}
+.time-line-detail{
+    text-align: right;
+}
+
+.weui-navbar__item{
+    border-bottom: 1px solid #f4f4f4;
+}
+.weui-navbar__item:after {
+    border-right: none;
+}
+
+.swiper-wrapper .swiper-slide.selected {
+    border-bottom: 3px solid #1aad19;
+    /*background-color: #f4f4f4;*/
+}
+
+.index-title {
+    text-align: center;
+    font-size: 25px;
+    color: #1a8dd8;
+    font-weight: bold;
+    margin: 0 15%;
+}
+
+.index-sub-title {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.index-header {
+    padding: 10px 0;
+}
+
+.index-content-padded {
+    padding: 15px;
+}
+.yioa-watch-right{
+    float: right;
+}
+
+.fixedElement {
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:9999;
+}
+.weui-navbar__item{
+    padding: 3px 0;
+}
+.swiper-container-autoheight, .swiper-container-autoheight .swiper-slide{
+    min-height: 500px;
+}
+.time-line-line-empty {
+    position: absolute;
+    top: 31px;
+    left: 21px;
+    width: 2px;
+    height: 100%;
+    background: #cacaca;
+}
+.weui-label{
+    font-weight: bold;
+    color: #5f646e;
+}
+
+.statebtn{
+    width:70px;
+    height:30px;
+    font-size: 2px;
+    background-color: grey;
+}
+.statustxt{
+    color: white;
+}
+
+.weui-dialog__hd{
+    max-height: 200px;
+    overflow: scroll;
+    /* text-overflow: ellipsis; */
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.weui-dialog {
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+.weui-dialog .weui-dialog__bd{
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+iframe{
+    border: none; width: 100%; height: 100%;
+}
+
+.weui-actionsheet {
+    overflow-y: scroll;
+    max-height: 80%;
+}

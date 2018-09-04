@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yioa.market.mapper.MarketOrderMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="order_column_list">
+    	w.lng, w.lat,
+        w.market_send_order_id  market_send_order_id,
+  		w.passenger passenger ,
+	    w.passenger_name passenger_name,
+	    w.co_organiser co_organiser,
+	    w.co_organiser_name co_organiser_name,
+	    w.destination destination,
+	    w.market_area_ame market_area_ame,
+	    w.market_targer_name market_targer_name ,
+	    w.plan_leave_date plan_leave_date ,
+	    w.wo_order_content wo_order_content,
+	    w.plan_back_date plan_back_date,
+	    w.create_by_id createById,
+	    w.create_by  createBy,
+	    w.create_date  createDate,
+	    w.flow_stage flowStage,
+	    w.flow_stage_name flowStageName,
+	    w.flow_Info_Id flowInfoId,
+	    w.market_send_order_code market_send_order_code,
+	    w.work_order_subject work_order_subject,
+	    w.status
+    </sql>
+
+    <select id="selectMarketOrderByStatusAndUserId" parameterType="hashmap" resultType="marketOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(LOCATE(',11,',CONCAT(',',w.passenger,',')) > 0 , "y",null) canDeal
+        , if(f.receive_user_id=#{userId},'y',NULL) checkOut
+        , if(f.receive_user_id is null  or f.receive_user_id = '','y',NULL) checkIn
+        FROM t_market_order w
+        LEFT JOIN t_flow_info f ON w.flow_info_id=f.flow_info_id
+        LEFT JOIN t_watch_order t ON w.market_send_order_id =t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and w.create_by_id = #{create_by_id}
+        </if>
+        <!-- co_organiser 是为了抄送，其实不太合适，是不是后面考虑去掉呢？？ -->
+        <if test="userId != null">
+            and (
+            CONCAT(',',w.passenger,',') like #{likeUserId}
+            or (f.handle_by_id=#{userId} and f.handle_by_type='user' AND (f.receive_user_id is null or f.receive_user_id = ''))
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or f.receive_user_id=#{userId}
+            )
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or w.passenger_name like #{keyword}
+            or w.co_organiser_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.flow_stage_name like #{keyword}
+            or w.market_send_order_code like #{keyword}
+            )
+        </if>
+
+        order by w.create_date desc limit #{offset},#{size}
+
+    </select>
+    
+     <select id="selectMarketOrderByStatus" parameterType="hashmap" resultType="marketOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(LOCATE(',11,',CONCAT(',',w.passenger,',')) > 0 , "y",null) canDeal
+        , if(f.receive_user_id=#{userId},'y',NULL) checkOut
+        , if(f.receive_user_id is null or f.receive_user_id = '','y',NULL) checkIn
+        FROM t_market_order w
+        LEFT JOIN t_flow_info f ON w.flow_info_id=f.flow_info_id
+        LEFT JOIN t_watch_order t ON w.market_send_order_id =t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and w.create_by_id = #{create_by_id}
+        </if>
+        <if test="keyword != null">
+            and ( 1=2
+            or w.passenger_name like #{keyword}
+            or w.co_organiser_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.flow_stage_name like #{keyword}
+            )
+        </if>
+
+        order by w.create_date desc
+
+    </select>
+
+    <select id="selectMarketOrderCountByStatusAndUserId" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_market_order w
+        LEFT JOIN t_flow_info f ON w.flow_info_id=f.flow_info_id
+
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and w.create_by_id = #{create_by_id}
+        </if>
+        <if test="userId != null">
+            and (CONCAT(',',w.passenger,',') like #{likeUserId}
+            or (f.handle_by_id=#{userId} and f.handle_by_type='user' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or f.receive_user_id=#{userId})
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or w.passenger_name like #{keyword}
+            or w.co_organiser_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.flow_stage_name like #{keyword}
+            or w.market_send_order_code like #{keyword}
+            )
+        </if>
+
+    </select>
+
+    <select id="selectCanDealCount" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT COUNT(1) cnt
+
+        FROM t_market_order w
+        LEFT JOIN t_flow_info f ON w.flow_info_id=f.flow_info_id
+        WHERE 1=1
+        and w.market_send_order_id=#{workOrderId}
+        <if test="userId != null">
+            and ( 1=2
+            or f.receive_user_id=#{userId}
+            or (f.handle_by_id=#{userId} and f.handle_by_type='user' AND (f.receive_user_id is null or f.receive_user_id = ''))
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null or f.receive_user_id = ''))
+            )
+        </if>
+    </select>
+
+    <select id="qryMarketList" parameterType="hashmap" resultType="marketOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        FROM t_market_order w
+        where market_area_ame like CONCAT('%',#{marketAreaName},'%')  and create_date Between #{planLeaveDate} And #{planBackDate}
+    </select>
+
+    <select id="qryMarketListCount" parameterType="hashmap" resultType="java.lang.Integer">
+            SELECT count(1) cnt
+        FROM t_market_order w
+        where w.market_area_ame like CONCAT('%',#{marketAreaName},'%')  and w.create_date Between #{planLeaveDate} And #{planBackDate}
+    </select>
+
+    <select id="selectWatchList" parameterType="hashmap" resultType="marketOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(t.delete_state='0','y',NULL) watched
+        FROM t_watch_order t
+        INNER JOIN  t_market_order w ON t.order_id=w.market_send_order_id
+        <if test="keyword != null">
+            and ( 1=2
+            or w.market_send_order_code like #{keyword}
+            or w.passenger_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.destination like #{keyword}
+            )
+        </if>
+
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        WHERE 1=1
+        <if test="userId != null">
+            and t.user_id=#{userId}
+        </if>
+        and t.delete_state='0'
+        order by t.create_date desc limit #{offset},#{size}
+
+    </select>
+
+    <select id="selectWatchListCount" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_watch_order t
+        INNER JOIN t_market_order w ON t.order_id=w.market_send_order_id
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        <if test="keyword != null">
+            and ( 1=2
+            or w.market_send_order_code like #{keyword}
+            or w.passenger_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.destination like #{keyword}
+            )
+        </if>
+        WHERE 1=1
+        <if test="userId != null">
+            and t.user_id=#{userId}
+        </if>
+
+
+
+        and t.delete_state='0'
+
+    </select>
+
+    <select id="selectMyOrderByStatus" parameterType="hashmap" resultType="marketOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(t.delete_state='0','y',NULL) watched
+        , if(w.editable='1','1',NULL) editable
+        FROM t_market_order w
+        LEFT JOIN t_watch_order t ON w.market_send_order_id = t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        and w.create_by_id = #{create_by_id}
+
+        <if test="keyword != null">
+            and ( 1=2
+            or w.market_send_order_code like #{keyword}
+            or w.passenger_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.destination like #{keyword}
+            )
+        </if>
+
+        order by w.create_date desc limit #{offset},#{size}
+
+    </select>
+
+    <select id="selectMyOrderCountByStatus" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_market_order w
+        LEFT JOIN t_watch_order t ON  w.market_send_order_id=t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        and w.create_by_id = #{create_by_id}
+
+        <if test="keyword != null">
+            and ( 1=2
+            or w.market_send_order_code like #{keyword}
+            or w.passenger_name like #{keyword}
+            or w.wo_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.destination like #{keyword}
+            )
+        </if>
+    </select>
+</mapper>

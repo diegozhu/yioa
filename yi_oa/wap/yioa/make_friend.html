@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>来自你对面的小哥哥</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="description" content="home page">
+
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+</head>
+<body>
+    <div class="top_line">
+        <div class="line1">小姐姐，我观察你很久了</div>
+        <div class="line2">做我女朋友好不好？</div>
+    </div>
+    <div>
+        <img src="../images/love.jpg" width="300px" height="300px">
+    </div>
+    <div class="btn">
+        <a href="javascript:;" class="weui-btn weui-btn_plain-default btn1" id="btn-login">好</a>
+        <a href="javascript:;" class="weui-btn weui-btn_plain-default btn2" id="btn-login2">不好</a>
+        <p id="text"></p>
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=3&id=1369360809&auto=1&height=66"></iframe>
+    </div>
+</body>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+<script type="text/javascript">
+    var i = 0;
+    var text = document.getElementById('text');
+    if (window.Notification) {
+        var popNotice = function() {
+            if (Notification.permission == "granted") {
+                var notification = new Notification("Hi，帅哥：", {
+                    body: '可以加你为好友吗？',
+                    icon: 'http://image.zhangxinxu.com/image/study/s/s128/mm1.jpg'
+                });
+                $("#btn-login").click(function(){
+                    text.innerHTML = '张小姐已于' + new Date().toTimeString().split(' ')[0] + '加你为好友！';
+                    notification.close();
+                });
+            }
+        };
+
+        $("#btn-login").click(function(){
+            if (Notification.permission == "granted") {
+                popNotice();
+            } else if (Notification.permission != "denied") {
+                Notification.requestPermission(function (permission) {
+                    popNotice();
+                });
+            }else{
+                alert("获取不到权限");
+            }
+        });
+    } else {
+        alert('浏览器不支持Notification');
+    }
+
+    $("#btn-login2").click(function(){
+        if(i == 0){
+            alert("房子写你名");
+            i = i+1;
+        }else if(i == 1){
+            alert("保大");
+            i = i+1;
+        } else if(i == 2){
+            alert("我妈会游泳");
+            i = i+1;
+        }else{
+            alert("房子写你名");
+            i = 1;
+        }
+
+
+    });
+
+</script>
+<style>
+    .top_line{
+        margin-left: 20px;
+        margin-top: 10px;
+        font-family: "微软雅黑";
+    }
+    .line2{
+        margin-top: 10px;
+        font-family: "微软雅黑";
+    }
+    .btn{
+
+    }
+    .btn1{
+        width: 200px;
+    }
+    .btn2{
+        width: 200px;
+    }
+
+</style>
+</html>

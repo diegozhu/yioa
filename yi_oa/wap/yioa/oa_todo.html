@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的待办</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="oa todo">
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+    <link rel="stylesheet" href="css/oa_todo.css">
+
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+    <script src="//cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="../js/angular.1.7.2.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/oa_todo.js"></script>
+</head>
+
+<body ontouchstart  ng-app="myApp" ng-controller="myCtrl">
+<div class="page__bd " >
+    <div class="weui-search-bar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" ng-model="search" ng-keyup="searchFunc()" placeholder="搜索" >
+                <a href="#" class="weui-icon-clear"></a>
+            </div>
+            <label class="weui-search-bar__label" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                <i class="weui-icon-search"></i>
+                <span>{{search || '搜索'}}</span>
+            </label>
+        </form>
+        <a href="#" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        <div class=""><a href="#" class="action-icon" ng-click='choseStatus()'><img src="../images/icon_nav_form.png" width='20px' alt=""></a></div>
+    </div>
+
+    <div class="swiper-container swiper-title">
+        <div class=" swiper-wrapper">
+            <div class="weui-navbar__item swiper-slide {{tab.selected ? 'selected': ''}}" ng-repeat="tab in tabs">{{tab.name}}</div>
+        </div>
+    </div>
+
+    <div class="swiper-container swiper-content order-list">
+        <div class="swiper-wrapper">
+            <div style='min-height: 360px;'  class="swiper-slide" ng-repeat="tab in tabs" id='{{tab.id}}'>
+                <div class="weui-media-box weui-media-box_text todo-item" ng-repeat="order in tab.orders | orderBy:'createDate':true">
+                    <input type="hidden" class="flowstage-input" value="{{order.flowStage}}">
+                    <div class="todo_icon"><img src="../images/{{order.orderIcon}}.png" width='20px' alt="" class="order-icon"></div>
+                    <div class="todo_content">
+                        <div class="button_sp_area yioa-status-tag">
+                            <div class="button_sp_area workordertitle"  ng-click='orderClick(order)'>{{order.workOrderSubject || '未命名任务'}}</div>
+                            <div class="button_sp_area yioa-watch-right">
+                                <img ng-if="order.checkOut" ng-click='checkInOut(order)' src="../images/checkin.png" width='20px' alt=""></a>
+                                <img ng-if="order.checkIn" ng-click='checkInOut(order)' src="../images/checkout.png" width='20px' alt=""></a>
+                                <img class="yioa-unwatch" ng-click='watchUnwatch(order)' src="../images/{{order.watched ? 'un' : ''}}watch.png" width='20px'></a>
+                                <a ng-click='goToEdit(order)'><img ng-if="order.editable" src="../images/editable.png" width='20px' alt=""></a>
+                            </div>
+                        </div>
+                        <div ng-click='orderClick(order)'><p class="workordercontent">{{order.workOrderContent}}</p></div>
+                        <div ng-click='orderClick(order)'>
+                            <ul class="weui-media-box__info">
+                                <li class="weui-media-box__info__meta">单号: {{order.workOrderCode}}</li>
+                                <li class="weui-media-box__info__meta yioa-todo-date">{{order.createDate}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style='height: 50px'>&nbsp;</div>
+</div>
+</body>
+</html>

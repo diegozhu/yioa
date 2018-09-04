@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的草稿</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="我的草稿">
+
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+
+</head>
+
+<body ontouchstart>
+<div class="page__bd " >
+    <!--<div class="weui-search-bar" id="searchBar">-->
+        <!--<form class="weui-search-bar__form">-->
+            <!--<div class="weui-search-bar__box">-->
+                <!--<i class="weui-icon-search"></i>-->
+                <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">-->
+                <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
+            <!--</div>-->
+            <!--<label class="weui-search-bar__label" id="searchText"-->
+                   <!--style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">-->
+                <!--<i class="weui-icon-search"></i>-->
+                <!--<span>搜索</span>-->
+            <!--</label>-->
+        <!--</form>-->
+        <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
+        <!--<div class=""><a href="javascript:;" class="action-icon" id='show-actions'><img src="../images/icon_nav_form.png" width='20px' alt=""></a></div>-->
+    <!--</div>-->
+
+    <div class=" ">
+
+                <div  class=" swiper-slide"  id="save-container" > </div>
+
+    </div>
+</div>
+
+
+<script id="orderTpl" type="text/x-jsrender">
+
+{{#data}}
+<div class="weui-media-box weui-media-box_text todo-item">
+    <input type="hidden" class="orderid-input" value="{{workOrderId}}">
+    <input type="hidden" class="flowid-input" value="{{flowInfoId}}">
+    <input type="hidden" class="flowstage-input" value="{{flowStage}}">
+    <h3 class="weui-media-box__title">{{workOrderSubject}}
+        <div class="button_sp_area yioa-status-tag">
+          <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">{{status}}</a>
+        </div>
+    </h3>
+    <p class="weui-media-box__desc">{{workOrderContent}}</p>
+    <ul class="weui-media-box__info">
+        <!--<li class="weui-media-box__info__meta">订单编码: {{workOrderCode}}</li>-->
+        <li class="weui-media-box__info__meta yioa-todo-date">{{createDate}}</li>
+    </ul>
+</div>
+{{/data}}
+</script>
+
+
+<script id="carOrderTpl" type="text/x-jsrender">
+{{#data}}
+<div class="weui-media-box weui-media-box_text todo-item">
+    <input type="hidden" class="orderid-input" value="{{carSendOrderId}}">
+    <h3 class="weui-media-box__title">{{carSendOrderSubject}}
+        <div class="button_sp_area yioa-status-tag">
+          <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">{{status}}</a>
+        </div>
+    </h3>
+    <p class="weui-media-box__desc">{{carSendOrderContent}}</p>
+    <ul class="weui-media-box__info">
+        <!--<li class="weui-media-box__info__meta">订单编码: {{carSendOrderCode}}</li>-->
+        <li class="weui-media-box__info__meta yioa-todo-date">{{createDate}}</li>
+    </ul>
+</div>
+{{/data}}
+
+</script>
+
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="//cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="../lib/jquery.mustache.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+<script src="js/common.js"></script>
+<script src="js/order_save.js"></script>
+
+</body>
+</html>

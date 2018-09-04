@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <title>营销宝</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="oa order submit">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SdtL1fXcWG0wSNqeQljIUFcgnwL9IpN5"></script>
+	<!-- <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script> -->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <script src="../js/angular.1.7.2.min.js"></script>
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+</head>
+<body ontouchstart>
+<div class="weui-tab">
+    <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item" style='height: 100%;'>
+            <div style='text-align: center'>
+                <input class='weui-input' type='text' style='width: auto; max-width: 40%; text-align: right;' value='' id='planLeaveDate' />
+                ~
+                <input type='text' class='weui-input' style='width: auto; max-width: 40%;' value='' id='planBackDate' />
+            </div>
+                <div ng-click='selectRestirct()' style='text-align: center;'>
+                    {{marketAreaName}}
+                    <span style='font-size: 13px; color: #999;'>({{tips}})</span>
+                </div>
+            </label>
+            <div id="allmap" style="width: 100%;height: 80%; overflow: hidden; padding: 0; margin:0;"></div>
+        </div>
+        <div id="tab2" class="weui-tab__bd-item weui-tab__bd-item">
+            <div class='todo-item' ng-repeat="item in data" style="padding: 10px 20px 10px 10px; border-bottom: #aaa 1px solid;">
+                <input type="hidden" class="orderid-input" value="{{item.market_send_order_id}}">
+                <input type="hidden" class="flowid-input" value="{{item.flowInfoId}}">
+                <input type="hidden" class="flowstage-input" value="{{flowStage}}">
+                <div style="float: left; width: 30px;"><img src="../images/icon_market.png" style='width:30px; height: 30px;' alt="" class="order-icon"></div>
+                <div style="padding-left: 35px;">
+                    <div class="button_sp_area yioa-status-tag">
+                        <div  class="button_sp_area yioa-status-tag workordertitle">{{item.work_order_subject}}</div>
+                    </div>
+                    <div><p class="workordercontent">{{item.wo_order_content}}</p></div>
+                    <div style='color: #666; font-size: 13px;'>
+                        单号: {{item.market_send_order_code}}
+                        <div class="date-left-{{leftDateCss}}">{{item.leftDate}}</div>
+                    </div>
+                    <div style='position: relative; top: -40px; right: -10px;' class='weui-cell_access'><div class='weui-cell__ft'></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-tabbar" style='position: fixed; bottom: 0;'>
+        <a href="#tab1" class="weui-tabbar__item tab0">
+            <div class="weui-tabbar__icon">
+                <img class='unselected' src="../images/toolbaricon_map.png">
+                <img class='selected' src="../images/toolbaricon_map_sel.png">
+            </div>
+            <p class="weui-tabbar__label">地图</p>
+        </a>
+        <a href="#tab2" class="weui-tabbar__item tab1">
+            <div class="weui-tabbar__icon">
+                <img class='unselected' src="../images/toolbaricon_list.png">
+                <img class='selected' src="../images/toolbaricon_list_sel.png">
+            </div>
+            <p class="weui-tabbar__label">列表</p>
+        </a>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="../lib/vendor/jquery.ui.widget.js"></script>
+<script src="../lib/load-image.all.min.js"></script>
+<script src="../lib/canvas-to-blob.min.js"></script>
+<script src="../lib/jquery.iframe-transport.js"></script>
+<script src="../lib/jquery.fileupload.js"></script>
+<script src="../lib/jquery.fileupload-process.js"></script>
+<script src="../lib/jquery.fileupload-image.js"></script>
+<style>
+    .date-left-normal{
+        float: right; color: green; border: green 1px solid; padding: 2px 3px; border-radius: 5px; font-size: 12px;
+    }
+    .data-left-late{
+        float: right; color: orange; border: orange 1px solid; padding: 2px 3px; border-radius: 5px; font-size: 12px;
+    }
+    .date-left-overflow{
+        float: right; color: red; border: red 1px solid; padding: 2px 3px; border-radius: 5px; font-size: 12px;
+    }
+    .weui-media-box__info{
+        overflow: visible;
+    }
+    .order-icon{
+        width:50px;
+        height:50px;
+    }
+    .workordercontent{
+        font-size:14px;
+        color: #888;
+    }
+</style>
+<script src="js/city_code.js"></script>
+<script src="js/common.js"></script>
+<script src="js/market_list.js"></script>
+<script>
+    $('.weui-tabbar__item').on('click',function(){
+        $('.selected').hide();
+        $('.unselected').show();
+        $(this).find('.unselected').hide();
+        $(this).find('.selected').show();
+        $('.weui-tab__bd-item').hide();
+        $($(this).attr('href')).show();
+        updateUrl({'tab': 'tab' + $(this).index()});
+    });
+    $('.weui-tabbar__item.' + (UrlParam.tab || 'tab0')).click();
+</script>
+</body>
+</html>

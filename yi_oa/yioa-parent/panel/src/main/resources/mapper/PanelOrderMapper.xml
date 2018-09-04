@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yioa.panel.mapper.PanelOrderMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="order_column_list">
+        w.work_order_id  workOrderId,
+  		w.organiser ,
+	    w.co_organiser coOrganiser,
+	    w.organiser_name organiserName,
+	    w.co_organiser_name coOrganiserName,
+	    w.work_order_type workOrderType,
+	    w.work_order_subject workOrderSubject,
+	    w.work_order_content workOrderContent ,
+	    w.milestone_date milestoneDate ,
+	    w.req_complete_date ReqCompleteDate,
+	    w.create_by_id createById,
+	    w.create_by  createBy,
+	    w.create_date  createDate,
+	    w.flow_stage flowStage,
+	    w.flow_stage_name flowStageName,
+	    w.flow_Info_Id flowInfoId,
+	    w.work_order_code workOrderCode,
+	    w.status
+    </sql>
+
+    <select id="selectPanelOrderByStatusAndUserId" parameterType="hashmap" resultType="panelVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(LOCATE(',11,',CONCAT(',',w.co_organiser,',')) > 0 , "y",null) canDeal
+        , if(f.receive_user_id=#{userId},'y',NULL) checkOut
+        , if(f.receive_user_id is null or f.receive_user_id = '','y',NULL) checkIn
+        FROM t_panel_order w
+        LEFT JOIN t_flow_info f ON w.flow_info_id=f.flow_info_id
+        LEFT JOIN t_watch_order t ON w.work_order_id=t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and w.create_by_id = #{create_by_id}
+        </if>
+        <!-- co_organiser 是为了抄送，其实不太合适，是不是后面考虑去掉呢？？ -->
+        <if test="userId != null">
+            and (
+            CONCAT(',',w.co_organiser,',') like #{likeUserId}
+            or (f.handle_by_id=#{userId} and f.handle_by_type='user' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or f.receive_user_id=#{userId}
+            )
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or w.organiser_name like #{keyword}
+            or w.co_organiser_name like #{keyword}
+            or w.work_order_subject like #{keyword}
+            or w.work_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.flow_stage_name like #{keyword}
+            or w.work_order_code like #{keyword}
+            )
+        </if>
+
+        order by w.create_date desc limit #{offset},#{size}
+
+    </select>
+
+    <select id="selectPanelOrderCountByStatusAndUserId" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_panel_order w
+        LEFT JOIN t_flow_info f ON w.flow_info_id=f.flow_info_id
+
+        WHERE 1=1
+        <if test="status != 'all'">
+            and w.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and w.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and w.create_by_id = #{create_by_id}
+        </if>
+        <if test="userId != null">
+            and (CONCAT(',',w.co_organiser,',') like #{likeUserId}
+            or (f.handle_by_id=#{userId} and f.handle_by_type='user' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null  or f.receive_user_id = ''))
+            or f.receive_user_id=#{userId})
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or w.organiser_name like #{keyword}
+            or w.co_organiser_name like #{keyword}
+            or w.work_order_subject like #{keyword}
+            or w.work_order_content like #{keyword}
+            or w.create_by like #{keyword}
+            or w.flow_stage_name like #{keyword}
+            or w.work_order_code like #{keyword}
+            )
+        </if>
+
+    </select>
+
+</mapper>

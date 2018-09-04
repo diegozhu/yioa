@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yioa.sys.mapper.SysOfficeMapper">
+
+
+    <select id="queryOffice" parameterType="hashmap" resultType="sysOffice">
+        select id,name from sys_office where parent_id = '0'
+    </select>
+
+    <select id="queryDepart" parameterType="hashmap" resultType="sysOffice">
+        select id,name from sys_office where parent_id != '0'
+    </select>
+
+    <update id="bindAccount" parameterType="hashMap">
+        UPDATE sys_user
+		SET NAME = #{username}, MOBILE = #{no}, COMPANY_ID =
+		#{companyId},OFFICE_ID = #{officeId}
+		WHERE id = #{id}
+    </update>
+</mapper>

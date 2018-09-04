@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <title>营销宝</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="oa order submit">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SdtL1fXcWG0wSNqeQljIUFcgnwL9IpN5"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <script src="../js/angular.1.7.2.min.js"></script>
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+</head>
+<body ontouchstart>
+    <div style='margin: 3px 10px; font-size: 13px; color: #666;'>{{name}} ({{address.address}})</div>
+    <div id='allmap' style='height: 100%; width: 100%'></div>
+    <div style='position: fixed; bottom: 0; width: 100%; margin: 0 0 20px 0;'>
+        <a class="weui-btn weui-btn_primary" style='width: 80%;' href="#" ng-click='continue()'>选择位置</a>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="../lib/vendor/jquery.ui.widget.js"></script>
+<script src="js/city_code.js"></script>
+<script src="js/common.js"></script>
+<script src="js/select_location.js"></script>
+</body>
+</html>

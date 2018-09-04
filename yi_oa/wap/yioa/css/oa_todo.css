@@ -1,0 +1,54 @@
+
+    .order-icon{
+        width:50px;
+        height:50px;
+    }
+    .todo_icon {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .workordertitle{
+        vertical-align: middle;
+        font-size:18px;
+        color: black;
+        font-weight: bold;
+    }
+    .workordercontent{
+        font-size:18px;
+        color: black;
+    }
+    .todo-item{
+        position: relative;
+    }
+    .todo-item .todo_icon{
+        position: absolute;
+    }
+    .todo-item .todo_content{
+        margin-left: 55px;
+    }
+    .todo-item .yioa-watch-right{
+        position: relative;
+        right: 0;
+        word-break: keep-all;
+        width: auto;
+        white-space: nowrap;
+        top: 0;
+    }
+
+    .yioa-watch-right img{
+        width: 20px;
+        height: 20px;
+    }
+
+    .yioa-status-tag{
+        padding: 5px;
+        width: 100%;
+        display: flex;
+    }
+    .workordertitle{
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        margin-right: 15px;
+    }

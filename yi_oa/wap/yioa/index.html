@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>起而行之</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="home page">
+
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+
+</head>
+
+<body ontouchstart>
+
+<!--<header class='index-header'>-->
+    <!--<h1 class="index-title">起而行之</h1>-->
+    <!--<p class='index-sub-title'>欢迎来到起而行之</p>-->
+<!--</header>-->
+<div class="page__bd">
+    <div class="title">起而行之</div><p></p>
+    <div class="welcome">欢迎来到起而行之</div>
+    <!--<article class="weui-article" style="padding: 0">
+        <section>
+            &lt;!&ndash;<h2 class="title">章标题</h2>&ndash;&gt;
+            <section>
+                <p>
+                    <img src="../images/bgd.jpg" alt="">
+                </p>
+                &lt;!&ndash;<p>
+                    上面放个图，这里写几个字
+                </p>&ndash;&gt;
+            </section>
+        </section>
+    </article>-->
+</div>
+
+<div class="weui-form-preview">
+    <div class="weui-cell">智慧秘书</div>
+    <div class="weui-grids" id="wiseSecretary">
+        <a href="oa_todo.html?swiper_tab=0" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/oa_todo.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                待我处理的工单<br>
+                <b id="orderCnt" class="num-tip">0</b>
+            </p>
+        </a>
+        <a href="oa_todo.html?swiper_tab=2" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/oa_my_send.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我派出的工单<br>&nbsp;
+            </p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_grid" id="orderAction">
+            <div class="weui-grid__icon">
+                <img src="../images/oa_order.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我要派单<br>&nbsp;
+            </p>
+        </a>
+    </div>
+</div>
+<div class="weui-form-preview">
+    <div class="weui-cell">智慧派车</div>
+    <div class="weui-grids" id="smartCar">
+        <a href="car_todo.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/car_todo.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                待我处理的派车<br>
+                <b id="carOrderCnt" class="num-tip">0</b>
+            </p>
+        </a>
+        <a href="car_todo.html?mine=1" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/car_my_send.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我派出的车次<br>&nbsp;
+            </p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_grid" id="carOrderAction">
+            <div class="weui-grid__icon">
+                <img src="../images/car_order.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我要派车<br>&nbsp;
+            </p>
+        </a>
+
+
+
+    </div>
+</div>
+<div class="weui-form-preview">
+    <div class="weui-cell">关于</div>
+    <div class="weui-grids" id="about">
+
+        <a href="submission.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/submission.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我要投稿
+            </p>
+        </a>
+        <a href="about.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/about.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                关于我们
+            </p>
+        </a>
+
+        <a href="other.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/other.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                其他
+            </p>
+        </a>
+
+        <a href="taskPanel.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/other.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                任务板
+            </p>
+        </a>
+        <a href="sign_in.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/other.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                签到页面
+            </p>
+        </a>
+        <a href="market_list.html" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="../images/other.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                营销宝
+            </p>
+        </a>
+    </div>
+</div>
+
+
+<!--<div class="weui-grids" id="myOrder">
+    <a href="oa_todo.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/oa_todo.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            我的任务<br>
+            <b id="orderCnt" class="num-tip">0</b>
+        </p>
+    </a>
+    &lt;!&ndash;<a href="oa_todo.html?mine=1" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+    <img src="../images/oa_my_send.png" alt="">
+    </div>
+    <p class="weui-grid__label">
+    我派出的工单
+    </p>
+    </a>&ndash;&gt;
+    <a href="javascript:;" class="weui-grid js_grid" id="orderAction">
+        <div class="weui-grid__icon">
+            <img src="../images/oa_order.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            我要派单<br>&nbsp;
+        </p>
+    </a>
+
+    <a href="car_todo.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/car_todo.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            我的派车<br>
+            <b id="carOrderCnt" class="num-tip">0</b>
+        </p>
+    </a>
+    &lt;!&ndash;<a href="car_todo.html?mine=1" class="weui-grid js_grid">
+    <div class="weui-grid__icon">
+    <img src="../images/car_my_send.png" alt="">
+    </div>
+    <p class="weui-grid__label">
+    我派出的车次
+    </p>
+    </a>&ndash;&gt;
+    <a href="javascript:;" class="weui-grid js_grid" id="carOrderAction">
+        <div class="weui-grid__icon">
+            <img src="../images/car_order.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            我要派车
+        </p>
+    </a>
+
+
+    <a href="me.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/me.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            我的信息
+        </p>
+    </a>
+    <a href="address_book.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/address_book.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            企业通讯录
+        </p>
+    </a>
+    &lt;!&ndash;<a href="bindUser.html" class="weui-grid js_grid">&ndash;&gt;
+        &lt;!&ndash;<div class="weui-grid__icon">&ndash;&gt;
+            &lt;!&ndash;<img src="../images/me.png" alt="">&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
+        &lt;!&ndash;<p class="weui-grid__label">&ndash;&gt;
+            &lt;!&ndash;信息绑定&ndash;&gt;
+        &lt;!&ndash;</p>&ndash;&gt;
+    &lt;!&ndash;</a>&ndash;&gt;
+    <a href="submission.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/submission.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            我要投稿
+        </p>
+    </a>
+    <a href="about.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/about.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            关于我们
+        </p>
+    </a>
+
+    <a href="other.html" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="../images/other.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            其他
+        </p>
+    </a>
+
+
+</div>-->
+
+
+<div class="weui-footer">
+    <p class="weui-footer__links">
+        <a href="javascript:" class="weui-footer__link">起而行之</a>
+    </p>
+    <p class="weui-footer__text">Copyright © 2017 起而行之</p>
+</div>
+
+
+<style>
+    .page__bd{
+        width:100%;height: 6rem;position: relative;text-align: center;background-color: #F7F7F7;
+    }
+    .title{
+        padding-top: 0.5rem;
+        font-size: 30px;
+        font-weight:bold;
+        color: deepskyblue;background-color: #F7F7F7;
+    }
+    .welcome{
+        margin-top: 5px;font-size: 20px;font-weight:bold;color: grey;
+    }
+    .weui-cell{
+        font-size: 35px;
+        color: lightgray;
+    }
+    .weui-footer {
+        margin: 25px 0 10px 0;
+    }
+</style>
+
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="js/common.js"></script>
+<script src="js/index.js"></script>
+</body>
+
+</html>

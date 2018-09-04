@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <title>{{currentTab.name}}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="home page">
+
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+    <script src="//cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="../js/jquery-weui.js"></script>
+    <script src="../js/angular.1.7.2.min.js"></script>
+    <script src="js/swiper-tab.js"></script>
+    <script src="js/common.js?v=20180821"></script>
+    <script src="js/home.js?v=20180902"></script>
+</head>
+<body>
+
+<div class="weui-tab">
+    <div class="weui-tab__bd">
+        <div id="tab2" ng-show='currentTab.idx == 2'><iframe src='oa_todo.html'></iframe></div>
+        <div id="tab3" ng-show='currentTab.idx == 3'><iframe src='address_book.html'></iframe></div>
+        <div id="tab1" ng-show='currentTab.idx == 1'>
+            <div class='title'>
+                <span ng-click="daysOffset(-7)"><img class='left' src='../images/mytask_listarrow.png' /></span>
+                {{firstDayOfThisWeek}} ~ {{lastDayOfThisWeek}} 
+                <span ng-click="daysOffset(7)"><img class='right' src='../images/mytask_listarrow.png' /></span>
+                <img class='add' ng-click="gotoAddTask()" src='../images/mytask_itemlist_edit.png' />
+            </div>
+            <div class="swiper-container">
+                <div class="swiper-container swiper-title">
+                    <div class=" swiper-wrapper">
+                        <div class="weui-navbar__item swiper-slide selected ">四象限</div>
+                        <div class="weui-navbar__item swiper-slide">时间轴</div>
+                        <div class="weui-navbar__item swiper-slide">项目</div>
+                    </div>
+                </div>
+                <div class="swiper-container swiper-content">
+                    <div class=" swiper-wrapper">
+                        <div class="swiper-slide-active swiper-slide">
+                            <table style='width: 100%;'>
+                                <tr class='row' ng-repeat="row in xiangXian">
+                                    <td class='cell cell{{cell.id + 1}}' ng-repeat="cell in row.cells">
+                                        <div class='content' >
+                                            <div>{{taskLeves[cell.id]}}</div>
+                                            <div class='list' ng-click='clickTask(task)'
+                                                ng-repeat="task in tasks | filter: {taskLevel: taskLeves[cell.id]}:true | orderBy: 'status':true"
+                                                ng-class='task.status == "已完成" ? "task-done" : ""'>
+                                                    <div class='idx'>{{$index + 1}})</div>{{task.taskName}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style='height: 50px;'>&nbsp;</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class='tasksByTimeline' ng-repeat="timeline in tasksByTimeline">
+                                {{timeline.date}}
+                                <div class='list task' ng-click='clickTask(task)' ng-class='task.status == "已完成" ? "task-done" : ""' ng-repeat="task in timeline.tasks | orderBy: 'startTime'">
+                                    <div class='start'>{{ task.startTimeShort}}</div>
+                                    <img src='../images/tasklevel{{task.taskLevel}}.png' />
+                                    <div class='name'>{{ task.taskName }}<span class='level'>({{ task.taskLevel }}) {{task.status}}</span></div>
+                                    <div class='ref' ng-click="gotoref(task)" ng-if='task.refOrder'>关联{{task.refOrderType}} {{task.refOrder || '无'}}</div>
+                                    <div class='alert'>{{task.alert}}提醒</div>
+                                </div>
+                                <div ng-if='!timeline.tasks.length' style='margin-left: 85px;'>暂无开始任务</div>
+                            </div>
+                            <div style='height: 50px;'>&nbsp;</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class='list project' ng-click='goToListByProject(project)' ng-repeat="project in projects">
+                                <div class='finish-percentage'>{{ project.finish }}<font style='font-size:10px;'>%</font></div>
+                                <div class='name'>{{ project.name || '未标记' }}项目</div>
+                                <div class='detail'>总任务(<span>{{project.done + project.undone}}</span>)|&nbsp;已完成(<span>{{project.done}}</span>)</div>
+                            </div>
+                            <div style='height: 50px;'>&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab4" ng-if='currentTab.idx == 4'>
+            <div class="weui-form-preview">
+                <div class="weui-cell weui-cell_vcode" style='padding-left:5px; margin-top: 10px;'>
+                    <div class="weui-cell__hd"><img src="../images/portrait.png" alt="" style="width:80px;height:80px;"></div>
+                    <div class="weui-cell__bd" style='position: relative; left: -15px;'>
+                        <div class="weui-cell weui-cell_vcode">
+                            <div class="weui-cell__hd" style="width:40px;"><label class="weui-label">姓名: </label></div>
+                            <div class="weui-cell__bd" style="min-width:70px;"><span class="weui-label" id="name" name="no">{{user.name}}</span></div>
+                        </div>
+                        <div class="weui-cell weui-cell_vcode">
+                            <div class="weui-cell__hd" style="width:40px;"><label class="weui-label">手机:</label></div>
+                            <div class="weui-cell__bd" style="min-width:70px;"><span class="weui-label" style='min-width: 110px;' id="mobile" name="mobile">{{user.mobile}}</span></div>
+                            <div class="weui-cell__bd" style='position: absolute; right: -10px;'><a class='change-phone' href='change_phone.html'><img src="../images/edit.png"></a></div>
+                        </div>
+                        <div class="weui-cell weui-cell_vcode">
+                            <div class="weui-cell__hd" style="width:40px;"><label class="weui-label">部门:</label></div>
+                            <div class="weui-cell__bd" style="min-width:70px;"><label class="weui-label" id="orgName" name="orgName" style=' width: auto;'>{{user.orgName}}</label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="background: #f5f5f5;height:20px;width:100%;"></div>
+            <div class="weui-grids" id="wiseSecretary">
+                <a href="oa_todo.html?swiper_tab=0" class="weui-grid js_grid">
+                    <div class="weui-grid__icon" style="width:72px;height:72px;"   ><img src="../images/meicon01.png" alt=""></div>
+                    <p class="weui-grid__label">待办工单<br><b id="orderCnt" class="num-tip">0</b></p>
+                </a>
+                <a href="oa_todo.html?swiper_tab=1" class="weui-grid js_grid">
+                    <div class="weui-grid__icon" style="width:72px;height:72px;" ><img src="../images/meicon02.png" alt=""></div>
+                    <p class="weui-grid__label">关注工单<br>&nbsp;</p>
+                </a>
+                <a href="oa_todo.html?swiper_tab=2" class="weui-grid js_grid" id="orderAction">
+                    <div class="weui-grid__icon" style="width:72px;height:72px;" ><img src="../images/meicon03.png" alt=""></div>
+                    <p class="weui-grid__label">派出工单<br>&nbsp;</p>
+                </a>
+            </div>
+            <div class="weui-grids" id="smartCar">
+                <a href="car_todo.html" class="weui-grid js_grid">
+                    <div class="weui-grid__icon" style="width:72px;height:72px;" ><img src="../images/meicon04.png" alt=""></div>
+                    <p class="weui-grid__label">任务版<br><b id="carOrderCnt" class="num-tip">0</b></p>
+                </a>
+                <a href="market_list.html?mine=1" class="weui-grid js_grid">
+                    <div class="weui-grid__icon" style="width:72px;height:72px;" ><img src="../images/meicon05.png" alt=""></div>
+                    <p class="weui-grid__label">营销宝<br>&nbsp;</p>
+                </a>
+                <a href="#" class="weui-grid js_grid" id="carOrderAction">
+                    <div class="weui-grid__icon" style="width:72px;height:72px;" ><img src="../images/meicon06.png" alt=""></div>
+                    <p class="weui-grid__label">使用帮助<br>&nbsp;</p>
+                </a>
+            </div>
+            <div style="background: #f5f5f5;height:20px;width:100%;"></div>
+            <div class="weui-form-preview">
+                <div class="weui-cell weui-cell_vcode">
+                    <div class="weui-cell__hd"><label class="weui-label">工号:</label></div>
+                    <div class="weui-cell__bd"><span class="weui-label" id="no" name="no">{{user.no}}</span></div>
+                </div>
+                <div class="weui-cell weui-cell_vcode">
+                    <div class="weui-cell__hd"><label class="weui-label">用户角色:</label></div>
+                    <div class="weui-cell__bd" style='font-weight: bold; color: #5f646e;'><span ng-repeat="role in user.roleList">{{role.name}}&nbsp;&nbsp;</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-home" class="weui-tabbar" style='position: fixed;'>
+        <a href="#tab2" class="weui-tabbar__item" ng-repeat="tab in tabs" ng-click='clickTab(tab)'>
+            <div class="weui-tabbar__icon"><img src="../images/toolbaricon_{{tab.icon}}{{tab.selected ? '_sel' : ''}}.png" id="{{tab.id}}"></div>
+            <p class="weui-tabbar__label">{{tab.name}}</p>
+        </a>
+    </div>
+</div>
+</body>
+</html>

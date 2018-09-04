@@ -1,0 +1,10 @@
+@startuml
+
+package com.yioa.ssm.cfg <<Frame>>{
+    class EventConfig
+    class HandlerCfg
+    class StateMachineConfig
+}
+
+
+@enduml

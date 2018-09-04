@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>待办任务</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="panel todo">
+
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+</head>
+<body ontouchstart>
+
+<div class="page__bd " >
+    <div class=" ">
+        <div class="swiper-container swiper-title">
+            <div class=" swiper-wrapper">
+                <div class="weui-navbar__item swiper-slide selected " >待办任务</div>
+            </div>
+        </div>
+
+        <div class="swiper-container swiper-content">
+            <div class=" swiper-wrapper">
+                <div  class="swiper-slide-active swiper-slide"  id="todo-container" > </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="todoTpl" type="text/x-jsrender">
+{{#data}}
+<div class="weui-media-box weui-media-box_text todo-item">
+    <input type="hidden" class="orderid-input" value="{{workOrderId}}">
+    <input type="hidden" class="flowid-input" value="{{flowInfoId}}">
+    <input type="hidden" class="flowstage-input" value="{{flowStage}}">
+    <h3 class="weui-media-box__title">{{workOrderSubject}}
+        <div class="button_sp_area yioa-status-tag">
+          <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">{{status}}</a>
+        </div>
+
+        {{#watched}}
+        <div class="button_sp_area yioa-status-tag yioa-watch-right">
+          <a href="javascript:;" class="yioa-unwatch" orderId="{{workOrderId}}"><img src="../images/unwatch.png" width='20px' alt=""></a>
+        </div>
+        {{/watched}}
+
+        {{^watched}}
+        <div class="button_sp_area yioa-status-tag yioa-watch-right">
+          <a href="javascript:;" class="yioa-watch" orderId="{{workOrderId}}"><img src="../images/watch.png" width='20px' alt=""></a>
+        </div>
+        {{/watched}}
+
+        {{#checkOut}}
+        <div class="button_sp_area yioa-status-tag yioa-watch-right">
+          <a href="javascript:;" class="yioa-checkin" orderId="{{workOrderId}}" flowInfoId="{{flowInfoId}}"><img src="../images/checkin.png" width='20px' alt=""></a>
+        </div>
+        {{/checkOut}}
+
+        {{#checkIn}}
+        <div class="button_sp_area yioa-status-tag yioa-watch-right">
+          <a href="javascript:;" class="yioa-checkout" orderId="{{workOrderId}}" flowInfoId="{{flowInfoId}}"><img src="../images/checkout.png" width='20px' alt=""></a>
+        </div>
+        {{/checkIn}}
+
+        {{#editable}}
+        <div class="button_sp_area yioa-status-tag yioa-watch-right">
+          <a href="javascript:;" class="yioa-editable" orderId="{{workOrderId}}"><img src="../images/editable.png" width='20px' alt=""></a>
+        </div>
+        {{/editable}}
+
+    </h3>
+    <p class="weui-media-box__desc">{{workOrderContent}}</p>
+    <ul class="weui-media-box__info">
+        <li class="weui-media-box__info__meta">订单编码: {{workOrderCode}}</li>
+        <li class="weui-media-box__info__meta yioa-todo-date">{{createDate}}</li>
+    </ul>
+</div>
+{{/data}}
+</script>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="//cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="../lib/jquery.mustache.js"></script>
+<script src="//cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+<script src="js/common.js"></script>
+<script src="js/panel_todo.js"></script>
+<!--<script src="js/swiper-tab.js"></script>-->
+</body>
+</html>

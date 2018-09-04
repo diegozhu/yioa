@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>签到</title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SdtL1fXcWG0wSNqeQljIUFcgnwL9IpN5"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="oa detail">
+
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/weui-extend.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+</head>
+<body>
+<div class="yioa-subject"><span id="current_address" style='font-size: 15px;color: #666;' name="current_address"></span>
+</div>
+<div id="allmap" style="width: 100%;height: 400px;"></div>
+<div  style="background: #f4f4f4;"><span style="padding: 10px;">上传照片</span></div>
+<div class="weui-cells weui-cells_form" >
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <div class="weui-uploader">
+                <div class="weui-uploader__bd">
+                    <ul class="weui-uploader__files up-container" id="uploaderFiles">
+                        <!--<li class="weui-uploader__file" style="background-image:url(../images/car-red.png)"></li>-->
+                        <li class="weui-uploader__file weui-uploader__file_status ready-up-ele" style="display: none">
+                            <div class="weui-uploader__file-content ready-up">0%</div>
+                        </li>
+                    </ul>
+                    <div class="weui-uploader__input-box">
+                        <input id="uploadFile" name="uploadFile" class="weui-uploader__input" type="file"
+                               data-url="/a/sys/upload" accept="image/*" multiple="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="signSubmit" class="signSubmit">
+    <a href="javascript:;" class="weui-btn weui-btn_primary" 
+    style='border: #4b90e2 5px solid; background-color: #5cb7e5; line-height: 20px; width: 100px; height: 100px; border-radius: 50px; text-align: center; padding-top: 25px;'
+    id="sign" onclick="sign()"></a>
+</div>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(108.95, 34.27);
+    map.centerAndZoom(point, 12);
+    var geolocation = new BMap.Geolocation();
+    var getAddress;
+    var longitude,lantitude;
+    var gc = new BMap.Geocoder();
+
+    geolocation.getCurrentPosition(function(r) {
+        console.log(r.point);
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var mk = new BMap.Marker(r.point, {icon: new BMap.Icon("../images/locate_small.png", new BMap.Size(20, 28))});
+            mk.enableDragging();
+            mk.addEventListener("dragend", function(e){    
+                map.panTo(e.point);//地图中心移动
+                gc.getLocation(e.point, function(rs){
+                    var addComp = rs.addressComponents;
+                    console.log(rs.address);//地址信息
+                    $("#current_address").html("签到地址:"+rs.address);
+                    getAddress = rs.address;
+                });
+                console.log("当前位置：" + e.point.lng + ", " + e.point.lat);    
+            });
+            map.addOverlay(mk);//标出所在地
+            map.panTo(r.point);//地图中心移动
+            gc.getLocation(r.point, function(rs){
+                var addComp = rs.addressComponents;
+                console.log(rs.address);//地址信息
+                $("#current_address").html("签到地址:"+rs.address);
+                getAddress = rs.address;
+            });
+        }else {
+            alert('failed'+this.getStatus());
+        }
+    },{enableHighAccuracy: true})
+    var date = new Date();
+    var currentTime = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+    $("#sign").html("签到<br />"+currentTime);
+
+    function sign(){
+        var reArr = [{"title": "签到", "event": "sign", "restUrl": "/oa/workorder/sign/{workOrderId}"}];
+        var restUrl =  "/oa/workorder/sign/{workOrderId}";
+        var workOrderId = getUrlParameter("workorderid");
+        var g_flowStage = getUrlParameter("g_flowStage");
+        var event = "sign";
+        restUrl = restUrl.replace('{workOrderId}',workOrderId).replace('{event}',event).replace('{orderType}','market');
+        var attachFile = getUpFiles();
+        $.post(makeAjaxUrl(restUrl),{
+           "workOrderId": workOrderId,
+            "attachFile": attachFile,
+            "flowStage": g_flowStage,
+            "notes": "签到",
+            "address":getAddress,
+            "longitude": longitude,
+            "latitude": lantitude
+        },function (data) {
+          $.toast("提交成功",function(){
+              window.location.href = "market_detail.html?workorderid=" + workOrderId;
+          }, "json");
+        });
+    }
+</script>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="../lib/jquery.mustache.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="../lib/vendor/jquery.ui.widget.js"></script>
+<script src="../lib/load-image.all.min.js"></script>
+<script src="../lib/canvas-to-blob.min.js"></script>
+<script src="../lib/jquery.iframe-transport.js"></script>
+<script src="../lib/jquery.fileupload.js"></script>
+<script src="../lib/jquery.fileupload-process.js"></script>
+<script src="../lib/jquery.fileupload-image.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+<script src="js/common.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/file_detail.js"></script>
+</body>
+</html>

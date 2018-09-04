@@ -1,0 +1,133 @@
+.form .row {
+    position: relative;
+}
+.sperator{
+    background-color: #eee;
+    height: 10px;
+    border-bottom: #ddd 1px solid;
+}
+.form .row .label, .form .row .value {
+    color: #000;
+    font-size: 15px;
+    line-height: 38px;
+    padding: 0 20px;
+}
+
+.form .row .value {
+    position: absolute;
+    right: 0;
+    border: none;
+    text-align: right;
+    top: 0;
+}
+
+.form .row textarea.value {
+    position: relative;
+    width: 90%;
+    margin: 10px auto;
+    left: 5px;
+    padding: 10px;
+    border: #ddd 1px solid;
+    border-radius: 5px;
+    text-align: left;
+    min-height: 80px;
+    line-height: 18px;
+}
+
+.form .row{
+    border-bottom: #ddd 1px solid;
+}
+
+.form input[type='button']{
+    width: 90%;
+    margin: 30px 5% 30px 5%;
+    height: 35px;
+    font-size: 20px;
+    background-color: rgb(0, 153, 255);
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.header{
+    margin: 20px 10px 10px 10px;
+}
+
+.header img{
+    float: left;
+    size: 40px;
+    height: 40px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+.header .title{
+    margin-left: 65px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.header .subtitle{
+    margin-left: 50px;
+    font-size: 13px;
+    color: #666;
+}
+.task-done, .list.task.task-done .name .level{
+    font-style:italic;
+    font-style:oblique;
+    text-decoration:line-through;
+    color: grey;
+}
+.header .delete{
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    color: #4091d8;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.list.task {
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    white-space: normal;
+    word-wrap: break-word;
+    position: relative;
+    padding: 5px 10px;
+    min-height: 45px;
+    border-bottom: #e2dede 1px solid;
+}
+.list.task img{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+}
+
+.list.task .name{
+    margin-left: 40px;
+}
+
+.list.task .name .level{
+    font-size: 13px;
+    color: #4091d8;
+    margin-left: 13px;
+}
+
+.list.task .start{
+    font-size: 13px;
+    color: #aaa;
+    margin-left: 40px;
+}
+
+.list.task .content, .list.task .alert{
+    color: #aaa;
+    font-size: 13px;
+    margin-left: 40px;
+}
+
+.list.task .ref{
+    font-size: 13px;
+    color: #aaa;
+    margin-left: 40px;
+}

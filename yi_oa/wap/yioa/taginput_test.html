@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>我要派单</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="oa order submit">
+    <link href="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput-typeahead.css" rel="stylesheet">
+    <link href="../css/yioa.css" rel="stylesheet">
+</head>
+
+<body ontouchstart>
+<input type="text" id="tag">
+</div>
+
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script>
+    $(function () {
+        var elt = $("#tag");
+        elt.tagsinput({
+            itemValue: 'value',
+            itemText: 'text'
+        });
+        elt.tagsinput('add', {"value": 1, "text": "Amsterdam"});
+        elt.tagsinput('add', {"value": 4, "text": "Washington"});
+        elt.tagsinput('add', {"value": 7, "text": "Sydney"});
+        elt.tagsinput('add', {"value": 10, "text": "Beijing"});
+        elt.tagsinput('add', {"value": 13, "text": "Cairo"});
+        console.log(elt.val());
+        console.log(elt.tagsinput('items'));
+
+    });
+
+
+</script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+
+</body>
+</html>

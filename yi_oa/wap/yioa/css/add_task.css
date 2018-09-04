@@ -1,0 +1,89 @@
+.form .row {
+    position: relative;
+}
+.sperator{
+    background-color: #eee;
+    height: 10px;
+    border-bottom: #ddd 1px solid;
+}
+.form .row .label, .form .row .value {
+    color: #000;
+    font-size: 15px;
+    line-height: 38px;
+    padding: 0 20px;
+}
+
+.form .row .value {
+    position: absolute;
+    right: 0;
+    border: none;
+    text-align: right;
+    top: 0;
+}
+
+.form .row textarea.value {
+    position: relative;
+    width: 90%;
+    margin: 10px auto;
+    left: 5px;
+    padding: 10px;
+    border: #ddd 1px solid;
+    border-radius: 5px;
+    text-align: left;
+    min-height: 80px;
+    line-height: 18px;
+}
+
+.form .row{
+    border-bottom: #ddd 1px solid;
+}
+
+.form input[type='button']{
+    width: 90%;
+    margin: 30px 5% 30px 5%;
+    height: 35px;
+    font-size: 20px;
+    background-color: rgb(0, 153, 255);
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.header{
+    margin: 20px 10px 10px 10px;
+}
+
+.header img{
+    float: left;
+    size: 40px;
+    height: 40px;
+}
+
+.header .title{
+    margin-left: 50px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.header .subtitle{
+    margin-left: 50px;
+    font-size: 13px;
+    color: #666;
+}
+
+.header .delete{
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    color: #4091d8;
+    font-size: 15px;
+    padding: 10px;
+}
+
+
+.order-list{
+    padding: 5px 10px;
+    overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+}

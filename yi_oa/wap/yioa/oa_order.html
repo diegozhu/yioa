@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>我要派单</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="oa order submit">
+
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+
+</head>
+
+<body ontouchstart>
+<header class='demos-header'>
+    <h1 class="demos-title">我要派单</h1>
+</header>
+
+<div class="weui-cells__title">&nbsp;</div>
+<div class="weui-cells weui-cells_form">
+    <input type="hidden" name="workOrderId" id="workOrderId" />
+    <input type="hidden" name="workOrderCode" id="workOrderCode" />
+    <input type='hidden' name="workOrderType" id="orderType" value="事务单">
+
+     <a class="weui-cell weui-cell_access" href="javascript:void(0);">
+        <!--<div class="weui-cell__hd " ><img src="../images/u792.png" alt=""></div>-->
+        <div class="weui-cell__hd order-lable"><label class="weui-label">派单人</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readOnly="true" id="senderName" value="" placeholder="">
+            <input type="hidden" id="coOrganiser" value="">
+        </div>
+        <!-- <div class="weui-cell__ft ">
+            请选择
+        </div> -->
+    </a>
+
+    <a class="weui-cell weui-cell_access open-popup organiser-a " href="javascript:;">
+        <!--<div class="weui-cell__hd"><img src="../images/u792.png" alt=""></div>-->
+        <div class="weui-cell__hd order-lable"><label class="weui-label">主办人</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readOnly id="organiserName" value="" placeholder=""/>
+            <input type="hidden" id="organiser" value=""/>
+        </div>
+        <div class="weui-cell__ft ">
+            请选择
+        </div>
+    </a>
+
+
+    <a class="weui-cell weui-cell_access open-popup coOrganiser-a " href="javascript:;">
+        <!--<div class="weui-cell__hd " ><img src="../images/u792.png" alt=""></div>-->
+        <div class="weui-cell__hd order-lable"><label class="weui-label">经办人</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readOnly="true" id="coOrganiserName" value="" placeholder="">
+            <input type="hidden" id="coOrganiser" value="">
+        </div>
+        <div class="weui-cell__ft ">
+            请选择
+        </div>
+    </a>
+
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd order-lable">
+            <label class="weui-label">紧急程度</label>
+        </div>
+        <div class="weui-cell__bd ">
+            <select class="weui-select" name="emergencyLevel" id="emergencyLevel">
+                <option selected="" value="低">低</option>
+                <option value="中">中</option>
+                <option value="高">高</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd order-lable">
+            <label class="weui-label">事务类别</label>
+        </div>
+        <div class="weui-cell__bd ">
+            <select class="weui-select" name="workOrderType" id="workOrderType">
+                <option selected="" value="请示">请示</option>
+                <option value="文件">文件</option>
+                <option value="催办">催办</option>
+            </select>
+        </div>
+    </div>
+    <!-- <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd order-lable">
+            <label class="weui-label">定单类型</label>
+        </div>
+        <div class="weui-cell__bd ">
+            <select class="weui-select" name="workOrderType" id="orderType" onchange="gradeChange()">
+                <option grade="1" selected="" value="事务单">事务单</option>
+                <option grade="2" value="派车单">派车单</option>
+                <option grade="3" value="营销单">营销单</option>
+            </select>
+        </div>
+    </div> -->
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd order-lable"><label class="weui-label">工单主题</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="workOrderSubject" id="workOrderSubject" placeholder="请输入主题">
+        </div>
+    </div>
+
+    <div class="weui-cells__title label-text">派单内容</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__bd " >
+                <textarea class="weui-textarea yioa-textarea" placeholder="请输入内容" rows="4" name="workOrderContent"
+                          id="workOrderContent"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="time" class="weui-label">阶段反馈时间</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="milestoneDate" name="milestoneDate" type="text" data-toggle='date'>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="time" class="weui-label">要求完成时间</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="reqCompleteDate" name="reqCompleteDate" type="text" data-toggle='date'>
+        </div>
+    </div>
+
+    <div class="weui-cells weui-cells_form" >
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files up-container" id="uploaderFiles">
+                            <!--<li class="weui-uploader__file" style="background-image:url(../images/car-red.png)"></li>-->
+                            <li class="weui-uploader__file weui-uploader__file_status ready-up-ele" style="display: none">
+                                <div class="weui-uploader__file-content ready-up">0%</div>
+                            </li>
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploadFile" name="uploadFile" class="weui-uploader__input" type="file"
+                                   data-url="/a/sys/upload" accept="image/*" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="weui-gallery del-photo" style="display: none">
+    <span class="weui-gallery__img " style="background-image: url(../images/car-red.png);" ></span>
+    <div class="weui-gallery__opr">
+        <a href="javascript:" class="weui-gallery__del">
+            <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+        </a>
+    </div>
+</div>
+
+<!--
+<label for="weuiAgree" class="weui-agree">
+    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+    <span class="weui-agree__text">
+        阅读并同意<a href="javascript:void(0);">《相关条款》</a>
+      </span>
+</label>
+-->
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="btn-submit">确定</a>
+    <a class="weui-btn weui-btn_plain-default" href="javascript:" id="btn-save">保存草稿</a>
+</div>
+
+
+<div id="organiserChoose" class='weui-popup__container  '>
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal organiser-popup">
+
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+                    <div class="weui-flex page__hd popup-title ">
+
+                        <div class="weui-flex__item">
+                            <div class="button_sp_area yioa-text-left">
+                                <div href="javascript:;" class="close-popup popup-title">取消</div>
+                            </div>
+                        </div>
+                        <div class="weui-flex__item">
+                            <div class="button_sp_area weui-cells__title popup-title"><b>选择联系人</b></div>
+                        </div>
+                        <div class="weui-flex__item">
+                            <div class="button_sp_area yioa-text-right btn-ok">
+                                <div href="javascript:;" class="close-popup btn-ok popup-title yioa-popup-ok">确定</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+            <div class="weui-tab__bd">
+                <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                    <div class="weui-search-bar" id="searchBar">
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i>
+                                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                                <div href="javascript:" class="weui-icon-clear" id="searchClear"></div>
+                            </div>
+                            <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                                <i class="weui-icon-search"></i>
+                                <span>搜索</span>
+                            </label>
+                        </form>
+                        <div href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</div>
+                    </div>
+
+                    <div class="weui-cell yioa-white-back">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">已选: </label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" id="chooseName" value="" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="weui-cells weui-cells_checkbox" id="organiserContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script id="organiserTpl" type="x-tmpl-mustache">
+{{#data}}
+<label class="weui-cell weui-check__label" for="{{id}}">
+    <div class="weui-cell__hd">
+        <input type="checkbox" class="weui-check" id="{{id}}" name="{{name}}" >
+        <i class="weui-icon-checked"></i>
+    </div>
+    <div class="weui-cell__bd">
+        <span>{{name}}</span> <span class="yioa-staff-desc">{{orgName}}</span>
+    </div>
+</label>
+{{/data}}
+
+
+</script>
+<script type="text/javascript">
+    function gradeChange(){
+        var orderType = document.getElementById("orderType");
+        var grade = orderType.options[orderType.selectedIndex].value;
+        if(grade == "派车单"){
+            window.location.href = "car_order.html";
+        }else if(grade == "营销单"){
+            window.location.href = "market_order.html";
+        }
+    }
+
+
+</script>
+
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="../lib/jquery.mustache.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="../lib/vendor/jquery.ui.widget.js"></script>
+<script src="../lib/load-image.all.min.js"></script>
+<script src="../lib/canvas-to-blob.min.js"></script>
+<script src="../lib/jquery.iframe-transport.js"></script>
+<script src="../lib/jquery.fileupload.js"></script>
+<script src="../lib/jquery.fileupload-process.js"></script>
+<script src="../lib/jquery.fileupload-image.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+
+<script src="js/common.js"></script>
+<script src="js/oa_order.js"></script>
+<script src="js/upload.js"></script>
+
+</body>
+</html>

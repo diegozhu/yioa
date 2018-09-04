@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单详情</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="oa detail">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SdtL1fXcWG0wSNqeQljIUFcgnwL9IpN5"></script>
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/weui-extend.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+</head>
+
+<body ontouchstart>
+
+<div class="weui-flex page__hd div-title " style="">
+    <div class="">
+        <div class="button_sp_area yioa-text-left"></div>
+    </div>
+    <div class="weui-flex__item">
+        <div class="button_sp_area weui-cells__title page-title ">订单详情</div>
+    </div>
+    <div class="">
+        <a href="javascript:;" class="action-icon-todo" id='show-actions'>
+            <img src="../images/icon_nav_form.png" width='20px' alt="">
+        </a>
+    </div>
+</div>
+<div class="weui-flexs">
+
+</div>
+
+<div class="weui_cell_hd"></div>
+<div class="yioa-subject">
+    <img src="../images/icon_market.png" style="float: left; width:30px; height: 30px;" alt="" class="order-icon">
+    <div style='padding-left: 35px;'>
+        <span id="work_order_subject" name="work_order_subject"></span>
+        <img id='watchHeartIcon' style='float: right; margin-right: 40px; width: 20px; height: 20px; display: none;' src="../images/watch.png">
+        <img id='unwatchHeartIcon' style='float: right; margin-right: 40px; width: 20px; height: 20px; display: none;' src="../images/unwatch.png">
+        <span style="float: right; margin-right: 10px; background-color: green; color: white;border-radius: 5px; font-size: 13px; padding: 1px 5px;"  id="status" name="status"></span>
+        <div style='clear: both; float:none;'></div>
+        <div style="line-height: 18px; color: #aaa; font-size: 13px;" id="wo_order_content" name="wo_order_content"></div>
+        <span style="color: #fe7474; border: #fe7474 1px solid; padding: 2px 10px; border-radius: 5px; font-size: 13px;" id="leftDate" name="leftDate"></span>
+    </div>
+</div>
+<div style='height: 5px; background-color: #eee;'>&nbsp;</div>
+<!--<div class="weui-flex">-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">派单员</label>-->
+        <!--<span class="weui-form-preview__value" id="createBy" name="createBy"></span>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">定单编码</label>-->
+        <!--<span class="weui-form-preview__value" id="workOrderCode" name="workOrderCode"></span>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="weui-flex">-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">主办人</label>-->
+        <!--<span class="weui-form-preview__value" id="organiserName" name="organiserName"></span>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">协办人</label>-->
+        <!--<span class="weui-form-preview__value" id="coOrganiserName" name="coOrganiserName"></span>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="weui-flex">-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">要求完成时间</label>-->
+        <!--<span class="weui-form-preview__value" id="reqCompleteDate" name="reqCompleteDate"></span>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">实际完成时间</label>-->
+        <!--<span class="weui-form-preview__value" id="actCompleteDate" name="actCompleteDate"></span>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="weui-flex">-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">阶段反馈时间</label>-->
+        <!--<span class="weui-form-preview__value" id="milestoneDate" name="milestoneDate"></span>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">实际反馈时间</label>-->
+        <!--<span class="weui-form-preview__value" id="actMilestoneDate" name="actMilestoneDate"></span>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="weui-flex">-->
+    <!--<div class="weui-flex__item">-->
+        <!--<label class="weui-form-preview__label">定单类型</label>-->
+        <!--<span class="weui-form-preview__value" id="workOrderType" name="workOrderType"></span>-->
+    <!--</div>-->
+
+<!--</div>-->
+<!--<div class="weui-line"></div>-->
+<!--<div class="weui-form-preview__bd detail-label">-->
+    <!--<div class="weui-form-preview__item">-->
+        <!--<span class="weui-form-preview__value yioa-order-content" id="workOrderContent" name="workOrderContent">-->
+            <!--</span>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="weui-form-preview">
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">单号</label>
+        <span class="weui-form-preview__value" id="market_send_order_code" name="market_send_order_code"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">派单人</label>
+        <span class="weui-form-preview__value" id="createBy" name="createBy"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销负责人</label>
+        <span class="weui-form-preview__value" id="passenger_name" name="passenger_name"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销协办人</label>
+        <span class="weui-form-preview__value" id="co_organiser_name" name="co_organiser_name"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销地点</label>
+        <span class="weui-form-preview__value" id="destination" name="destinationName"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销单元</label>
+        <span class="weui-form-preview__value" id="market_area_ame" name="market_area_ame"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销开始时间</label>
+        <span class="weui-form-preview__value" id="plan_leave_date" name="plan_leave_date"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销结束时间</label>
+        <span class="weui-form-preview__value" id="plan_back_date" name="plan_back_date"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">营销目标</label>
+        <span class="weui-form-preview__value" id="market_targer_name" name="market_targer_name"></span>
+    </div>
+    <div class="weui-form-preview__item">
+        <label class="weui-form-preview__label">定单状态</label>
+        <span class="weui-form-preview__value" id="status" name="status"></span>
+    </div>
+
+
+        <div class="weui-form-preview__bd detail-label">
+        <div class="weui-uploader">
+            <div class="weui-uploader__bd">
+                <ul class="weui-uploader__files show-up-container">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="weui-gallery show-photo" style="display: none">
+    <span class="weui-gallery__img "  ></span>
+</div>
+
+
+<script id="flowTpl" type="x-tmpl-mustache">
+{{#data}}
+<div class="time-line">
+    <ul>
+        <li>
+            {{#completeDate}}
+            <div class="time-line-circle"></div>
+            <div class="time-line-line"></div>
+            {{/completeDate}}
+
+            {{^completeDate}}
+            <div class="time-line-circle-empty"></div>
+            <div class="time-line-line-empty"></div>
+            {{/completeDate}}
+
+            <div class="time-line-info">
+                <p class="time-line-title">{{flowStageName}}</p>
+                <p class="time-line-meta"><b>{{completeUserName}}</b>     {{notes}}</p>
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files show-up-container">
+                            {{#attatchFileArr}}
+                                <li class="weui-uploader__file" style="background-image:{{src}}"></li>
+                             {{/attatchFileArr}}
+                        </ul>
+                    </div>
+                </div>
+                {{#longitude}}
+                    <p class="time-line-address">签到地点 {{address}}</p>
+                    <div id={{flowInfoId}} class="allmap"></div>
+                {{/longitude}}
+                <p class="time-line-detail">{{completeDate}}</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+{{/data}}
+</script>
+<div class="time-line-container">
+    <div class="time-line">
+        <ul>
+            <li>
+                <div class="time-line-circle"></div>
+                <div class="time-line-line"></div>
+                <!-- 时间线内容区 -->
+                <div class="time-line-info">
+                    <p class="time-line-title">派单</p>
+                    <p class="time-line-meta"></p>
+                    <p class="time-line-detail"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="time-line">
+        <ul>
+            <li>
+                <div class="time-line-circle"></div>
+                <div class="time-line-info">
+                    <p class="time-line-title">进行中</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class='weui-popup__container handler_popup'>
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal handler-container">
+
+    </div>
+</div>
+
+<div class="weui-footer">
+    <p class="weui-footer__links">
+    </p>
+    <p class="weui-footer__text"> </p>
+</div>
+
+<style>
+    .weui-form-preview__item{
+        border-bottom: #ddd 1px solid;
+        padding: 3px 10px;
+    }
+    .weui-form-preview__value{
+        text-align: right;
+    }
+    .weui-flexs{
+        width: 100%;
+        height: 15px;
+        background: #F7F7F7;
+    }
+    .weui-form-preview__label {
+        font-size: 15px;
+        color: grey !important;
+        font-weight: 100;
+    }
+    .weui-form-preview__value{
+        font-size: 14px;
+        font-weight:bold;
+        color: grey !important;
+        font-weight: 100;
+    }
+    .weui-flex__item{
+        margin-top: 10px;
+    }
+    .allmap{
+        width:100%;
+        height:200px;
+    }
+</style>
+<script src="../lib/alloy-lever.js"></script>
+<script type="text/javascript">
+    AlloyLever.config({
+        cdn:'//s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  //vconsole的CDN地址
+        reportUrl: "//a.qq.com",  //错误上报地址
+        reportPrefix: 'qun',    //错误上报msg前缀，一般用于标识业务类型
+        reportKey: 'msg',        //错误上报msg前缀的key，用户上报系统接收存储msg
+        otherReport: {              //需要上报的其他信息
+            uin: 491862102
+        },
+        entry:"#entry"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
+    })
+</script>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="../lib/jquery.mustache.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="../lib/vendor/jquery.ui.widget.js"></script>
+<script src="../lib/load-image.all.min.js"></script>
+<script src="../lib/canvas-to-blob.min.js"></script>
+<script src="../lib/jquery.iframe-transport.js"></script>
+<script src="../lib/jquery.fileupload.js"></script>
+<script src="../lib/jquery.fileupload-process.js"></script>
+<script src="../lib/jquery.fileupload-image.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+<script src="js/common.js"></script>
+<script src="js/market_detail.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/file_detail.js"></script>
+</body>
+</html>

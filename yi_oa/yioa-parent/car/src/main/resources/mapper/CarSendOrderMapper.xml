@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yioa.car.mapper.CarSendOrderMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="order_column_list">
+		  c.car_send_order_id   carSendOrderId,
+		  c.car_send_order_code  carSendOrderCode ,
+		  c.driver_id  driverId ,
+		  c.driver_name  driverName ,
+		  c.car_id   carId,
+		  c.car_no  carNo ,
+		  c.passenger_id  passengerId ,
+		  c.passenger_name passengerName  ,
+		  c.feedback_id  feedbackId ,
+		  c.feedback_name  feedbackName ,
+		  c.destination destination,
+		  c.plan_leave_date planLeaveDate,
+		  c.plan_back_date  planBackDate ,
+		  c.car_send_order_content  carSendOrderContent ,
+		  c.car_send_order_subject  carSendOrderSubject ,
+		  c.create_by_id  createById,
+		  c.create_by  createBy,
+		  c.create_date createDate,
+		  c.status   status,
+		  c.flow_Info_Id flowInfoId  ,
+		  c.flow_stage  flowStage
+	</sql>
+
+
+    <!-- 未来数据变多，这里分页的性能会降低，暂时数据还是很少的，到时再优化
+    查询待办，应该是
+    -->
+    <select id="selectOrderByStatusAndUserId" parameterType="hashmap" resultType="carSendOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(t.delete_state='0','y',NULL) watched
+        , if(f.receive_user_id=#{user_id},'y',NULL) checkOut
+        , if(f.receive_user_id is null or f.receive_user_id = '','y',NULL) checkIn
+        FROM t_car_send_order c
+        LEFT JOIN t_flow_info f ON c.flow_info_id=f.flow_info_id
+        LEFT JOIN t_watch_order t ON  c.car_send_order_id=t.order_id and t.delete_state='0'
+        <if test="create_by_id != null">
+            and t.user_id=#{create_by_id}
+        </if>
+        <if test="user_id != null">
+            and t.user_id=#{user_id}
+        </if>
+        WHERE 1=1
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and c.create_by_id = #{create_by_id}
+        </if>
+
+        <if test="user_id != null">
+            and (
+            (f.handle_by_id=#{user_id} and f.handle_by_type='user')
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null or f.receive_user_id = ''))
+            or f.receive_user_id=#{user_id})
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+
+
+        order by c.create_date desc limit #{offset},#{size}
+
+    </select>
+    
+    
+      <select id="selectOrderByStatus" parameterType="hashmap" resultType="carSendOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(t.delete_state='0','y',NULL) watched
+        , if(f.receive_user_id=#{user_id},'y',NULL) checkOut
+        , if(f.receive_user_id is null,'y',NULL) checkIn
+        FROM t_car_send_order c
+        LEFT JOIN t_flow_info f ON c.flow_info_id=f.flow_info_id
+        LEFT JOIN t_watch_order t ON  c.car_send_order_id=t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+
+
+        order by c.create_date desc
+    </select>
+
+
+    <select id="selectCanDealCount" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT COUNT(1) cnt
+        FROM t_car_send_order c
+        LEFT JOIN t_flow_info f ON c.flow_info_id=f.flow_info_id
+        WHERE 1=1
+        and c.car_send_order_id=#{orderId}
+        <!-- co_organiser 是为了抄送，其实不太合适，是不是后面考虑去掉呢？？ -->
+        <if test="user_id != null">
+            and (
+            (f.handle_by_id=#{user_id} and f.handle_by_type='user')
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null or f.receive_user_id = ''))
+            or f.receive_user_id=#{user_id})
+        </if>
+    </select>
+
+
+
+    <select id="selectOrderCountByStatusAndUserId" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_car_send_order c
+        LEFT JOIN t_flow_info f ON c.flow_info_id=f.flow_info_id
+        WHERE 1=1
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+        <if test="create_by_id != null">
+            and c.create_by_id = #{create_by_id}
+        </if>
+        <if test="user_id != null">
+            and (
+            (f.handle_by_id=#{user_id} and f.handle_by_type='user')
+            or ( #{roleIdStr} like CONCAT('%,',f.handle_by_id,',%') and f.handle_by_type='role' AND (f.receive_user_id is null or f.receive_user_id = ''))
+            or f.receive_user_id=#{user_id}
+            )
+        </if>
+
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+
+    </select>
+
+
+    <select id="selectMyOrderByStatus" parameterType="hashmap" resultType="carSendOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(t.delete_state='0','y',NULL) watched
+        , if(c.editable='1','1',NULL) editable
+        FROM t_car_send_order c
+        LEFT JOIN t_watch_order t ON c.car_send_order_id = t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+        and c.create_by_id = #{create_by_id}
+
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+
+        order by c.create_date desc limit #{offset},#{size}
+
+    </select>
+
+    <select id="selectMyOrderCountByStatus" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_car_send_order c
+        LEFT JOIN t_watch_order t ON  c.car_send_order_id=t.order_id and t.delete_state='0'
+        WHERE 1=1
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+        and c.create_by_id = #{create_by_id}
+
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+    </select>
+
+
+    <select id="selectWatchList" parameterType="hashmap" resultType="carSendOrderVo">
+        SELECT
+        <include refid="order_column_list"/>
+        , if(t.delete_state='0','y',NULL) watched
+        FROM t_watch_order t
+        INNER JOIN  t_car_send_order c ON t.order_id=c.car_send_order_id
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+        WHERE 1=1
+        <if test="userId != null">
+            and t.user_id=#{userId}
+        </if>
+        and t.delete_state='0'
+        order by t.create_date desc limit #{offset},#{size}
+
+    </select>
+
+    <select id="selectWatchListCount" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT count(1) cnt
+        FROM t_watch_order t
+        INNER JOIN  t_car_send_order c ON t.order_id=c.car_send_order_id
+        <if test="status != 'all'">
+            and c.status = #{status}
+        </if>
+        <if test="status == 'all'">
+            <![CDATA[ and c.status <> '已归档'  ]]>
+        </if>
+        <if test="keyword != null">
+            and ( 1=2
+            or c.car_send_order_code like #{keyword}
+            or c.driver_name like #{keyword}
+            or c.car_no like #{keyword}
+            or c.passenger_name like #{keyword}
+            or c.feedback_name like #{keyword}
+            or c.destination like #{keyword}
+            or c.car_send_order_content like #{keyword}
+            or c.car_send_order_subject like #{keyword}
+            or c.create_by like #{keyword}
+            )
+        </if>
+        WHERE 1=1
+        <if test="userId != null">
+            and t.user_id=#{userId}
+        </if>
+        and t.delete_state='0'
+    </select>
+
+
+    <!--计算车子的当前容量 margin-->
+
+    <select id="selectCar" parameterType="hashmap" resultType="carVo">
+        select c.car_id carId,c.capacity,
+          c.car_no carNo,
+          c.car_type carType,
+          s.car_send_order_id carSendOrderId,
+          s.passenger_name passengerName,
+          if(s.flow_stage is NOT NULL ,'y',NULL) occupied
+        from t_car c
+        LEFT JOIN t_car_send_order s on c.car_id=s.car_id
+        <![CDATA[ and s.flow_stage != 'FLOW_DONE'  ]]>
+        WHERE 1=1
+        and c.delete_tag='0'
+    </select>
+
+    <select id="selectCarCount" parameterType="hashmap" resultType="carVo">
+        select count(1) cnt
+        from t_car c
+        WHERE 1=1
+        and c.delete_tag='0'
+    </select>
+
+</mapper>

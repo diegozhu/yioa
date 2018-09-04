@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>起而行之</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="home page">
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+    <link rel="stylesheet" href="css/list_task.css">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+    <script src="../js/jquery-weui.js"></script>
+    <script src="../js/angular.1.7.2.min.js"></script>
+    <script src="../lib/jquery.mustache.js"></script>
+    <script src="js/common.js?v=20180815"></script>
+    <script src="js/list_task.js?v=20180815"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div style='background-color: #eeeeee; height: 40px;'><img style='width: 40px; height: 40px;' onclick='history.back()' src='../images/back.jpg' /></div>
+    <div class='header'>
+    <img src='../images/mytask_itemlist_icon.png' />
+    <div class='title'>
+        {{projectName}}项目
+    </div>
+    <table class='subtitle'>
+        <tr style='text-align: center; color: #4091d8;'><td>{{tasks.length || 0}}</td><td>{{finished || 0}}</td><td>{{(finished/(tasks.length || 1)* 100).toFixed(0)}}%</td></tr>
+        <tr><td>&nbsp;总任务&nbsp;</td><td>&nbsp;已完成&nbsp;</td><td>&nbsp;进度&nbsp;</td></tr>
+    </table>
+</div>
+<div class='sperator'></div>
+<div class="swiper-slide">
+    <div class='list task'  ng-class='task.status == "已完成" ? "task-done" : ""' ng-repeat="task in tasks | orderBy: 'status':true">
+        <img ng-click='clickTask(task)'  src='../images/tasklevel{{task.taskLevel}}.png' />
+        <div ng-click='clickTask(task)' class='name'>{{ task.taskName }}<span class='level'>({{ task.taskLevel }}) {{task.status}}</span></div>
+        <div ng-click='clickTask(task)' class='start'>{{ task.startTime}}~{{ task.endTime}}</div>
+        <div ng-click='clickTask(task)' class='alert'>{{task.alert}}</div>
+        <div class='ref' ng-click="gotoref(task)" ng-if='task.refOrder'>关联{{task.refOrderType}} {{task.refOrder || '无'}}</div>
+        <div ng-click='clickTask(task)' class='content'>{{task.taskContent}}</div>
+    </div>
+</div>
+</body>
+</html>

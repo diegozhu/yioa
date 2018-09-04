@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>修改手机号码</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="oa order submit">
+
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/yioa.css">
+
+</head>
+
+<body ontouchstart>
+<div class="weui-cells weui-cells_form">
+
+    <div class="weui-cell weui-cell_vcode btn-height">
+        <div class="weui-cell__hd">
+            <label class="weui-label">新手机号</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input input-tel" type="tel" placeholder="请输入新手机号">
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode btn-height">
+        <div class="weui-cell__hd"><label class="weui-label ">重复手机号</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input repeat-phone" type="number" placeholder="请输入重复手机号">
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode btn-height">
+        <div class="weui-cell__hd">
+            <label class="weui-label">验证码</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input btn-code" type="tel" placeholder="请输入验证码">
+        </div>
+        <div class="weui-cell__ft">
+            <button class="weui-vcode-btn btn-code">获取验证码</button>
+        </div>
+    </div>
+</div>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="btn-submit">确定</a>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="js/common.js"></script>
+<script src="js/changePhone.js"></script>
+</body>
+</html>

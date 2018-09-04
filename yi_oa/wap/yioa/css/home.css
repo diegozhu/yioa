@@ -1,0 +1,195 @@
+#tab1, #tab2, #tab3, #tab4{
+    width: 100%;
+    height: 100%;
+}
+#tab1 .title{
+    text-align: center;
+    background-color: #e2dede;
+    color: #2086d4;
+    line-height: 40px;
+}
+#tab1 .title span{
+    padding: 10px;
+}
+
+.title img.add{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.title img.left{
+    height: 20px;
+    width: 11px;
+    position: relative;
+    top: 5px;
+    transform:scaleX(-1);
+}
+.title img.right{
+    height: 20px;
+    width: 11px;
+    position: relative;
+    top: 5px;
+}
+
+#milestoneDate{
+   width: 20px;
+   height: 20px;
+   position: absolute;
+   right: 10px;
+}
+#tab1 .row{
+   width: 100%;
+}
+
+#tab1 .row .cell{
+    width: 48%;
+    padding: 1%;
+    color: #666;
+}
+#tab1 .row .cell1{
+    background-color: rgba(255, 204, 255, 1);
+}
+#tab1 .row .cell2{
+    background-color: rgba(255, 255, 204, 1);
+}
+#tab1 .row .cell3{
+    background-color: rgba(153, 255, 255, 1);
+}
+#tab1 .row .cell4{
+    background-color: rgba(204, 255, 204, 1);
+}
+
+.row .cell{
+    font-weight: bold;
+    font-size: 15px;
+    overflow: hidden;
+}
+.row{
+    vertical-align: top;
+    overflow: hidden;
+}
+.row .cell .content{
+    min-height: 180px;
+}
+
+.task-done, .list.task.task-done .name .level{
+    font-style:italic;
+    font-style:oblique;
+    text-decoration:line-through;
+    color: #888888;
+}
+.row .cell .content .list{
+    margin: 5px 0 5px 15px;
+    font-size: 13px;
+    color: #9a9696;
+    text-overflow:ellipsis;
+    word-break: break-all;
+    font-weight: normal;
+    position: relative;
+}
+.row .cell .content .list .idx{
+    position: absolute;
+    left: -15px;
+    font-weight: bold;
+}
+
+.project .name, .project .detail{
+    margin-left: 60px;
+}
+.project.list{
+    color: #888888;
+    padding: 10px;
+    position: relative;
+    border-bottom: #e2dede  1px solid;
+}
+
+.project .finish-percentage{
+    width: 40px;
+    position: absolute;
+    height: 40px;
+    line-height: 40px;
+    border: #2086d6 2px solid;
+    border-radius: 50%;
+    font-size: 15px;
+    text-align: center;
+}
+
+.project .detail{
+    font-size: 13px;
+}
+
+.project .detail span{
+    color: #2086d6;
+}
+
+
+.list.task {
+    position: relative;
+    min-height: 45px;
+    padding: 5px 10px;
+}
+.list.task img{
+    width: 30px;
+    height: 30px;
+    margin-left: 30px;
+    position: absolute;
+}
+
+.list.task .name{
+    margin-left: 65px;
+}
+
+.list.task .name .level{
+    font-size: 13px;
+    color: #4091d8;
+    margin-left: 5px;
+}
+
+.list.task .start{
+    font-size: 13px;
+    left: 0;
+    color: #888888;
+    position: absolute;
+}
+
+.list.task .content{
+    font-size: 13px;
+    color: #312f2f;
+    margin-left: 65px;
+}
+
+.list.task .ref, .list.task .alert{
+    font-size: 13px;
+    margin-left: 65px;
+}
+.list.task .alert img{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    left: 40px;
+}
+
+.tasksByTimeline{
+    border-bottom: #e2dede  1px solid;
+    font-size: 13px;
+    color: #888888;
+    padding-left: 13px;
+    min-height: 45px;
+}
+
+.change-phone{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    padding: 10px;
+}
+
+.change-phone img{
+    width:24px;height:24px;
+}
+
+.swiper-slide{
+    font-size: 17px;
+}

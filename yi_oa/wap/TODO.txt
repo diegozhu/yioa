@@ -1,0 +1,18 @@
+2 3 5 7 8:
+2.  002-001 我的工单---> 事物单，派车单，营销单 TODO：页面调整 && 增加派车单（三个tab都要加）
+3.  002 003 个人中心，iphone5 布局。
+5.  002-006 通讯录--样式修改 不要头像。
+7.  002-008 绑定账号/手机号 页面 function
+8.  002-010 营销宝地图----> 页面“预计发展xxx用户” 后台接口。  mark 换图标。按照效果图来。
+
+
+朱海洋：
+1.  http://localhost/exin/yioa/home.html -->工單 左右滑動問題。   效果應跟 “我的--》帶班工單” 一致
+4.  002-005 oa_order.html  协办人=经办人
+6.  002-007 个人中心，nav tab 不需要。 create new page, only display, according to home page people search api
+9.  002-011 营销宝列表----> 页面样式调整。剩余n天，根据plan_leave_date计算
+10.  002-012 营销订单详情----> 页面样式调整。关注按钮-->实现见：home，代办工单
+11. 002-013签到----> sigh_in.html 样式+mark图标。签到按钮。
+12. 002-002工单详情----> head部分按钮调整
+        超过n小时--->根据要求完成时间
+        紧急--->emergencyLevel

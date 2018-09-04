@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>起而行之</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="home page">
+    <link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="../css/yioa.css">
+    <link rel="stylesheet" href="css/add_task.css">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/jquery-weui.js"></script>
+    <script src="../js/angular.1.7.2.min.js"></script>
+    <script src="js/common.js?v=20180817"></script>
+    <script src="js/add_task.js?v=20180815"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<div style='background-color: #eeeeee; height: 40px;'><img style='width: 40px; height: 40px;' onclick='history.back()' src='../images/back.jpg' /></div>
+<div class='header'>
+    <img src='../images/tasklevel{{task.taskLevel}}.png' />
+    <div class='title'>{{task.taskLevel}}</div>
+    <div class='subtitle'>{{task.taskLevel}}</div>
+    <div class='delete' ng-click='delete()' ng-if='task.taskId'>删除</div>
+</div>
+<div class='sperator'></div>
+<div class='form'>
+    <div class='row'><div class='label'>任务名称</div><input class='value' ng-model="task.taskName" placeholder="输入任务名称"/></div>
+    <div class='row' id='taskLevel'><div class='label'>任务级别</div><div class='value'>{{task.taskLevel}}</div></div>
+    <div class='row'><div class='label'>任务开始时间</div><input data-toggle='date' type='text' class='value datetimepicker' ng-model="task.startTime"/></div>
+    <div class='row'><div class='label'>任务结束时间</div><input data-toggle='date' type='text' class='value datetimepicker' ng-model="task.endTime"/></div>
+    <div class='row' id='taskAlert'><div class='label'>提醒</div><div class='value'>{{task.alert}}</div></div>
+    <div class='row'><div class='label'>项目</div><input type='text' class='value' ng-model="task.projectName" placeholder="输入项目名称"/></div>
+    <div class='row order-popup'><div class='label'>关联工单</div><div class='value'>{{task.refOrder}}</div></div>
+    <div class='row'><div class='label'>任务内容</div><textarea class='value' ng-model="task.taskContent" placeholder="请输入任务内容"></textarea></div>
+    <input type='button' value='保存' ng-click='saveTask()'></div>
+</div>
+
+
+<div id="orderChose" class='weui-popup__container  '>
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal organiser-popup">
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+                    <div class="weui-flex page__hd popup-title ">
+
+                        <div class="weui-flex__item">
+                            <div class="button_sp_area yioa-text-left">
+                                <div href="javascript:;" class="close-popup popup-title">取消</div>
+                            </div>
+                        </div>
+                        <div class="weui-flex__item">
+                            <div class="button_sp_area weui-cells__title popup-title"><b>选择工单</b></div>
+                        </div>
+                        <div class="weui-flex__item">
+                            <div class="button_sp_area yioa-text-right btn-ok">
+                                <div href="javascript:;" class="close-popup btn-ok popup-title yioa-popup-ok">确定</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+            <div class="weui-tab__bd">
+                <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                    <div class="weui-search-bar" id="searchBar">
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i>
+                                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                                <div href="javascript:" class="weui-icon-clear" id="searchClear"></div>
+                            </div>
+                            <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                                <i class="weui-icon-search"></i>
+                                <span>搜索</span>
+                            </label>
+                        </form>
+                        <div href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</div>
+                    </div>
+
+                    <!-- <div class="weui-cell yioa-white-back">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">已选: </label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" id="chooseName" value="" placeholder=""/>
+                        </div>
+                    </div> -->
+                    <div class="weui-cells weui-cells_checkbox order-list" ng-click='selectOrder(order)' ng-repeat="order in orders">
+                        <div>{{order.workOrderSubject || '无名称'}}
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
